@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.teamcode.vision.MasterVision;
 import org.firstinspires.ftc.teamcode.vision.SampleRandomizedPositions;
 
-@Autonomous(name = "InferTf", group = "auto")
+@Autonomous(name = "RedCrater", group = "auto")
 
 
 
@@ -52,8 +52,11 @@ public class RedCrater extends LinearOpMode{
         vision.init();
 
         runtime.reset();
-        landingSlide.setPower(-0.6);
-        depotServo.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        landingSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        landingSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        landingSlide.setPower(0);
+        depotServo.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
 
@@ -63,15 +66,15 @@ public class RedCrater extends LinearOpMode{
         waitForStart();
 
         boolean slideDone = false;
-        landingSlide.setPower(0);
+        landingSlide.setTargetPosition(220);
         sleep(2000);
         vision.enable();// enables the tracking algorithms. this might also take a little time
         //wait(1000);
         rightBackDrive.setDirection(DcMotorSimple.Direction.REVERSE);
-         encoderDrive(0.5, 120, 120, 120, 120, 3.0, "detach from lander");
-        encoderDrive(0.5, -300, 300, -300, 300, 3.0, "strafe to align with minerals");
+        encoderDrive(0.5, 120, 120, 120, 120, 3.0);
+        encoderDrive(0.5, -265, 265, -265, 265, 3.0);
 
-        sleep(2500);
+        sleep(5000);
 
 
 
@@ -92,55 +95,62 @@ public class RedCrater extends LinearOpMode{
             switch (goldPosition){ // using for things in the autonomous program
                 case LEFT:
                     telemetry.addLine("going to the left");
-                    encoderDrive(0.4, -470, -470, -470, -470, 4.0, " align with gold ");
-                    encoderDrive(0.4, -500, 500, -500, 500, 4.0, " hit the gold ");
+                    encoderDrive(0.4, -490, -490, -490, -490, 4.0);
+                    sleep(250);
+                    encoderDrive(0.4, -500, 500, -500, 500, 4.0);
 
 
-                    encoderDrive(0.4, 250, -250, 250, -250, 4.0, " come backwards after pushing ");
-                    encoderDrive(0.4, -850, -850, -850, -850, 5.0, " move back to wall ");
-                    encoderDrive(0.4, -300, 300, 300, -300, 2.0, " turn left to face crater ");
-                    encoderDrive(0.4, -800, -800, -800, -800, 5.0, " move backwards into depot  ");
+                    encoderDrive(0.4, 250, -250, 250, -250, 4.0);
+                    encoderDrive(0.5, -850, -850, -850, -850, 5.0);
+                    encoderDrive(0.4, -300, 300, 300, -300, 2.0);
+                    encoderDrive(0.5, -800, -800, -800, -800, 5.0);
 
-
-                    depotServo.setPower(-1);
+                    depotServo.setPower(1);
                     sleep(1500);
 
-                    encoderDrive(0.4, 1500, 1500, 1500, 1500, 6.0, " move into crater after drop ");
+                    encoderDrive(0.4, 1500, 1500, 1500, 1500, 6.0);
                     done = done +1;
 
                     break;
                 case CENTER:
-                    encoderDrive(0.4, -320, -320, -320, -320, 4.0, " align with gold  ");
-                    encoderDrive(0.4, -500, 500, -500, 500, 4.0, " hit gold   ");
-                    encoderDrive(0.4, 220, -220, 220, -220, 4.0, " move back after hit  ");
-                    encoderDrive(0.4, -1000, -1000, -1000, -1000, 5.0, " move back to wall  ");
-                    encoderDrive(0.4, -300, 300, 300, -300, 2.0, "  turn left to face depot ");
-                    encoderDrive(0.4, -800, -800, -800, -800, 5.0, " move back into depot  ");
+                    encoderDrive(0.4, -280, -280, -280, -280, 4.0);
+                    sleep(250);
+                    encoderDrive(0.4, -500, 500, -500, 500, 4.0);
+                    encoderDrive(0.4, 220, -220, 220, -220, 4.0);
+                    encoderDrive(0.5, -1000, -1000, -1000, -1000, 5.0);
+                    encoderDrive(0.4, -300, 300, 300, -300, 2.0);
+                    encoderDrive(0.4, -800, -800, -800, -800, 5.0);
 
-                    depotServo.setPower(-1);
+                    depotServo.setPower(1);
                     sleep(1500);
-                    encoderDrive(0.4, 1500, 1500, 1500, 1500, 6.0, " move into crater  ");
+                    encoderDrive(0.4, 1500, 1500, 1500, 1500, 6.0);
                     done = done +1;
 
 
                     telemetry.addLine("going straight");
                     break;
                 case RIGHT:
-                    encoderDrive(0.4, 80, 80, 80, 80, 4.0, " align with gold  ");
-                    encoderDrive(0.4, -500, 500, -500, 500, 4.0, " hit gold  ");
-                    encoderDrive(0.4, 220, -220, 220, -220, 4.0, " move back after hit  ");
-                    encoderDrive(0.5, -1200, -1200, -1200, -1200, 5.0, " move back into wall  ");
-                    encoderDrive(0.4, -300, 300, 300, -300, 2.0, " turn left to face crater   ");
-                    encoderDrive(0.4, -800, -800, -800, -800, 5.0, " move back into depot ");
-                    depotServo.setPower(-1);
+                    encoderDrive(0.4, 80, 80, 80, 80, 4.0);
+                    encoderDrive(0.4, -500, 500, -500, 500, 4.0);
+                    encoderDrive(0.4, 220, -220, 220, -220, 4.0);
+                    encoderDrive(0.5, -1200, -1200, -1200, -1200, 5.0);
+                    encoderDrive(0.4, -300, 300, 300, -300, 2.0);
+                    encoderDrive(0.4, -800, -800, -800, -800, 5.0);
+                    depotServo.setPower(1);
                     sleep(1500);
-                    encoderDrive(0.4, 1500, 1500, 1500, 1500, 6.0, " move into crater   ");
+                    encoderDrive(0.4, 1500, 1500, 1500, 1500, 6.0);
                     telemetry.addLine("going to the right");
                     done = done +1;
                     break;
                 case UNKNOWN:
 
-                    telemetry.addLine("staying put");
+                    encoderDrive(0.5, -1200, -1200, -1200, -1200, 5.0);
+                    encoderDrive(0.4, -300, 300, 300, -300, 2.0);
+                    encoderDrive(0.4, -800, -800, -800, -800, 5.0);
+                    depotServo.setPower(1);
+                    sleep(1500);
+                    encoderDrive(0.4, 1500, 1500, 1500, 1500, 6.0);
+                    telemetry.addLine("going to the right");
                     done = done +1;
                     break;
             }
@@ -153,7 +163,7 @@ public class RedCrater extends LinearOpMode{
 
     public void encoderDrive(double speed,
                              double leftFrontInches, double rightFrontInches, double rightBackInches, double leftBackInches,
-                             double timeoutS, String comment) {
+                             double timeoutS ) {
         int newLeftFrontTarget;
         int newRightFrontTarget;
         int newLeftBackTarget;
@@ -196,7 +206,6 @@ public class RedCrater extends LinearOpMode{
                     (leftFrontDrive.isBusy() && rightFrontDrive.isBusy() && leftBackDrive.isBusy() && rightBackDrive.isBusy())) {
 
                 // Display it for the driver.
-                telemetry.addData("Comment: ", comment);
                 telemetry.addData("Path1", "Running to %7d :%7d", newLeftFrontTarget, newRightFrontTarget);
                 telemetry.addData("Path2", "Running at %7d :%7d",
                         leftFrontDrive.getCurrentPosition(),
@@ -217,6 +226,6 @@ public class RedCrater extends LinearOpMode{
             leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-             //sleep(250);   // optional pause after each move
+            //sleep(250);   // optional pause after each move
         }
-} }
+    } }

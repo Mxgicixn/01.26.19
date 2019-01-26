@@ -68,10 +68,10 @@ public class BlueDepot extends LinearOpMode{
         vision.enable();// enables the tracking algorithms. this might also take a little time
         //wait(1000);
         rightBackDrive.setDirection(DcMotorSimple.Direction.REVERSE);
-        encoderDrive(0.5, 120, 120, 120, 120, 3.0, " disengage from lander");
-        encoderDrive(0.5, -300, 300, -300, 300, 3.0, " strafe left to identify minerals");
+        encoderDrive(0.5, 130, 130, 130, 130, 3.0, " disengage from lander");
+        encoderDrive(0.5, -260, 260, -260, 260, 3.0, " strafe left to identify minerals");
 
-        sleep(5000);
+        sleep(2500);
 
 
 
@@ -150,7 +150,16 @@ public class BlueDepot extends LinearOpMode{
                     done = done +1;
                     break;
                 case UNKNOWN:
+                    encoderDrive(0.4, -500, 500, -500, 500, 4.0, "hit gold ");
+                    encoderDrive(0.4, 150, -150, -150, 150, 4.0, "turn to face crater ");
+                    encoderDrive(0.4, -400, -400, -400, -400, 4.0, "drive into depot");
 
+
+
+
+                    depotServo.setPower(-1);
+                    sleep(1500);
+                    encoderDrive(0.4, 1300, 1300, 1300, 1300, 4.0, " ");
                     telemetry.addLine("staying put");
                     done = done +1;
                     break;
